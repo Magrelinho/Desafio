@@ -1,0 +1,68 @@
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Listagem de Pokemons</p>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Imagem</th>
+                            <th scope="col">Favoritos</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let pokemon of pokemons; index as i">
+
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>
+                                {{ pokemon.name }}
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary" (click)=buscaImagemPokemon(pokemon.name)
+                                    data-bs-toggle="modal" data-bs-target="#myModal">Ver imagem</button>
+                            </td>
+                            <td>
+                                <a (click)="marcaFavorito(pokemon)"><img [src]="isFavorito(pokemon.name)"></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" [disabled]="desabilitaBotaoFavorito" class="btn btn-primary"
+                    (click)=buscaListaPokemonFavoritos()>
+                    Mostrar somente os Favoritos
+                </button>
+                <button type="button" class="btn btn-danger" (click)=limparFavoritos()>
+                    Limpar Favoritos
+                </button>
+                <button type="button" class="btn btn-secondary" (click)=buscaListaPokemon()>
+                    Recaregar pokemons
+                </button>
+            </div>
+        </div>
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item" [class.disabled]="pokemons.previous == null">
+                    <a class="page-link" (click)="buscaListaPokemon(pokemons.offset-50)" tabindex="-1"
+                        aria-disabled="true">Anterior</a>
+                </li>
+                <li class="page-item" [class.disabled]="pokemons.next == null">
+                    <a class="page-link" (click)="buscaListaPokemon(pokemons.offset+50)">Proximo</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h5 class="modal-title" style="text-transform:uppercase">{{nomePokemon}}</h5>
+                <img [src]="imagem" class="img-responsive">
+            </div>
+        </div>
+    </div>
+</div>
